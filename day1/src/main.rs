@@ -1,4 +1,4 @@
-use aoc_input::{InputBuilder};
+use aoc_input::{get_input_txt, get_argument_parsed};
 use std::env;
 
 fn main() {
@@ -7,14 +7,10 @@ fn main() {
     if args.len() < 3 {
         panic!("Please provide a target and a number to count");
     }
-    let target = args[1].parse::<i64>().expect("Please provide a target number");
-    let count = args[2].parse::<i64>().expect("Please provide a target number");
+    let target = get_argument_parsed(1).unwrap();
+    let count = get_argument_parsed(2).unwrap();
     
-    let mut builder = InputBuilder::new();
-    builder.file("input", "input.txt");
-    let results = builder.get_inputs();
-
-    let raw_content = results.values.get("input").unwrap().as_ref().unwrap();
+    let raw_content = get_input_txt();
     let lines = raw_content.lines();
     let ints: Vec<i64> = lines.map(|line| line.parse::<i64>().unwrap()).collect();
     let time = std::time::Instant::now();

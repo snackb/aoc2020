@@ -1,53 +1,15 @@
-use std::collections::HashMap;
 use std::fs;
-use std::io;
+use std::str::{FromStr};
 
-pub struct InputBuilder<'a> {
-    sources: Vec<Source<'a>>,
+pub fn get_input_txt() -> String {
+    fs::read_to_string("input.txt").expect("Can't read input.txt")
 }
 
-pub struct InputResults {
-    pub values: HashMap<String, io::Result<String>>,
-}
-
-struct Source<'a>{
-    name: &'a str,
-    source_type: SourceType<'a>,
-}
-
-enum SourceType<'a> {
-    FileByName(&'a str),
-}
-
-impl<'a> InputBuilder<'a> {
-    pub fn new() -> Self {
-        Self {
-            sources: Vec::new(),
-        }
-    }
-
-    pub fn file(&mut self, name: &'a str, filename: &'a str) {
-        self.sources.push(
-            Source {
-                name: name,
-                source_type: SourceType::FileByName(filename),
-            })
-    }
-
-    pub fn get_inputs(self) -> InputResults {
-        let mut values = HashMap::new();
-        for source in self.sources {
-            match source.source_type {
-                SourceType::FileByName(path) => {
-                    let file_contents = fs::read_to_string(path);
-                    values.insert(String::from(source.name), file_contents);
-                }
-            }
-        }
-        InputResults {
-            values: values,
-        }
+pub fn get_argument_parsed<T>(pos: usize) -> Option<T> where T: FromStr, <T as FromStr>::Err: std::fmt::Debug {
+    let args: Vec<String> = std::env::args().collect();
+    let raw_value = args.get(pos)?;
+    match raw_value.parse::<T>() {
+        Ok(value) => Some(value),
+        Err(_) => None,
     }
 }
-
-
