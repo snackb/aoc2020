@@ -20,22 +20,24 @@ pub fn valid_height(value: &str) -> bool {
             Ok(num) => num >= 59 && num <= 76,
             _ => false,
         }
-    } else {false}
+    } else {
+        false
+    }
 }
 
 pub fn valid_hair_colour(value: &str) -> bool {
-    value.starts_with("#") &&
-    value.trim_start_matches("#").len() == 6 &&
-    value.trim_start_matches("#").chars().all(
-        |x| ('0' <= x && x <= '9') || ('a' <= x && x <= 'f')
-    )
+    value.starts_with("#")
+        && value.trim_start_matches("#").len() == 6
+        && value
+            .trim_start_matches("#")
+            .chars()
+            .all(|x| ('0' <= x && x <= '9') || ('a' <= x && x <= 'f'))
 }
 
-pub fn valid_eye_colour(value: &str) -> bool { 
+pub fn valid_eye_colour(value: &str) -> bool {
     (&["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]).contains(&value)
 }
 
 pub fn valid_passport_number(value: &str) -> bool {
-    value.len() == 9 &&
-    value.chars().all(|x|x.is_numeric())
+    value.len() == 9 && value.chars().all(|x| x.is_numeric())
 }

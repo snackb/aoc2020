@@ -1,19 +1,17 @@
 mod validation;
 
 use aoc_input::*;
-use std::collections::{HashMap};
+use std::collections::HashMap;
 use validation::*;
-
-
 
 type Condition = &'static dyn Fn(&Passport) -> bool;
 
 pub fn field_from_string(input: &str) -> (String, String) {
-        let mut split_input = input.split(":");
-        let left = split_input.next().unwrap();
-        let right = split_input.next().unwrap();
-        (left.to_string(), right.to_string())
-    }
+    let mut split_input = input.split(":");
+    let left = split_input.next().unwrap();
+    let right = split_input.next().unwrap();
+    (left.to_string(), right.to_string())
+}
 
 struct Passport {
     fields: HashMap<String, String>,
@@ -21,14 +19,14 @@ struct Passport {
 
 impl Passport {
     fn from_str(input: &str) -> Self {
-        Passport{
-            fields: input.split_ascii_whitespace()
-                .map(&field_from_string)
-                .fold(HashMap::new(),
-                    |mut acc, (name, field)| {
-                        acc.insert(name.clone(), field.clone()); acc
-                    }
-                )
+        Passport {
+            fields: input.split_ascii_whitespace().map(&field_from_string).fold(
+                HashMap::new(),
+                |mut acc, (name, field)| {
+                    acc.insert(name.clone(), field.clone());
+                    acc
+                },
+            ),
         }
     }
 }
@@ -36,24 +34,24 @@ impl Passport {
 fn all_except_cid(passport: &Passport) -> bool {
     let required = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
     for field in &required {
-        if !passport.fields.keys().any(|x| x == field){
-            return false
+        if !passport.fields.keys().any(|x| x == field) {
+            return false;
         }
     }
-    return true
+    return true;
 }
 
 fn validate_all_except_cid(passport: &Passport) -> bool {
     let required = &["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
     for field in required {
-        if !passport.fields.keys().any(|x| x == field){
-            return false
+        if !passport.fields.keys().any(|x| x == field) {
+            return false;
         }
-        if !validate(field, &passport.fields.get(&field.to_string()).unwrap()){
-            return false
+        if !validate(field, &passport.fields.get(&field.to_string()).unwrap()) {
+            return false;
         }
     }
-    return true
+    return true;
 }
 
 fn validate(name: &str, value: &str) -> bool {
@@ -65,22 +63,29 @@ fn validate(name: &str, value: &str) -> bool {
         "hcl" => valid_hair_colour(value),
         "ecl" => valid_eye_colour(value),
         "pid" => valid_passport_number(value),
-        _ => panic!(format!("should be unreachable {}", name))
+        _ => panic!(format!("should be unreachable {}", name)),
     }
 }
 
 fn count_valid_passports(passports: &str, condition: Condition) -> usize {
-    passports.split("\n\n")
-    .map(&Passport::from_str)
-    .filter(|x|condition(x))
-    .count()
+    passports
+        .split("\n\n")
+        .map(&Passport::from_str)
+        .filter(|x| condition(x))
+        .count()
 }
 
 fn main() {
     match get_argument_parsed(1) {
-        Some(0) => println!("{}", count_valid_passports(&get_input_txt(), &all_except_cid)),
-        Some(1) => println!("{}", count_valid_passports(&get_input_txt(), &validate_all_except_cid)),
-        _ => panic!("no!")
+        Some(0) => println!(
+            "{}",
+            count_valid_passports(&get_input_txt(), &all_except_cid)
+        ),
+        Some(1) => println!(
+            "{}",
+            count_valid_passports(&get_input_txt(), &validate_all_except_cid)
+        ),
+        _ => panic!("no!"),
     }
 }
 
@@ -90,8 +95,7 @@ mod test {
 
     #[test]
     fn example_input() {
-        let example = 
-"ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+        let example = "ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
 byr:1937 iyr:2017 cid:147 hgt:183cm
 
 iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
@@ -110,8 +114,7 @@ iyr:2011 ecl:brn hgt:59in";
 
     #[test]
     fn example_input_2() {
-        let example = 
-"eyr:1972 cid:100
+        let example = "eyr:1972 cid:100
 hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926
 
 iyr:2019

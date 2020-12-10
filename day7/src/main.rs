@@ -10,7 +10,6 @@ fn main() {
         _ => get_num_of_bags_can_hold(&rules, "shiny gold"),
     };
     println!("{:?}", result);
-    
 }
 
 fn get_num_of_bags_can_hold(rules: &[Rule], target: &str) -> usize {
@@ -25,7 +24,7 @@ fn get_num_of_bags_can_hold(rules: &[Rule], target: &str) -> usize {
         }
         if set.len() == prev_size {
             println!("{:?}", set);
-            return prev_size - 1
+            return prev_size - 1;
         } else {
             prev_size = set.len()
         }
@@ -52,7 +51,7 @@ fn get_num_bags_held(rules: &[Rule], target: &str) -> usize {
 
     loop {
         match layer.len() {
-            0 => return total-1,
+            0 => return total - 1,
             x => total += x,
         }
         let next_layer = layer.into_iter()
@@ -70,7 +69,11 @@ struct Rule {
 impl Rule {
     fn new(line: &str) -> Self {
         let split_line = &line.split("contain").collect::<Vec<_>>();
-        let bag_type = split_line[0].trim().trim_end_matches("bags").trim().to_string();
+        let bag_type = split_line[0]
+            .trim()
+            .trim_end_matches("bags")
+            .trim()
+            .to_string();
         let bags = split_line[1];
         if !bags.contains("no other bags") { 
             let bags = bags.split(',')

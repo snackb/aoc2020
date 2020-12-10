@@ -14,9 +14,14 @@ fn count_trees(input: &str, x_step: usize, y_step: usize) -> usize {
     let height = hill.len();
     let mut sum = 0;
     loop {
-        if y >= height-1 {return sum}
-        x = x+x_step; y = y+y_step;
-        if y > height-1 {continue}
+        if y >= height - 1 {
+            return sum;
+        }
+        x = x + x_step;
+        y = y + y_step;
+        if y > height - 1 {
+            continue;
+        }
         let adjusted_x = x % width;
         sum += match hill[y][adjusted_x] {
             '#' => 1,
@@ -45,6 +50,5 @@ mod test {
 .#..#...#.#";
 
         assert_eq!(7, count_trees(input, 3, 1));
-
     }
 }
