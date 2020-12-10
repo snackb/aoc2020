@@ -7,7 +7,7 @@ use validation::*;
 type Condition = &'static dyn Fn(&Passport) -> bool;
 
 pub fn field_from_string(input: &str) -> (String, String) {
-    let mut split_input = input.split(":");
+    let mut split_input = input.split(':');
     let left = split_input.next().unwrap();
     let right = split_input.next().unwrap();
     (left.to_string(), right.to_string())
@@ -23,7 +23,7 @@ impl Passport {
             fields: input.split_ascii_whitespace().map(&field_from_string).fold(
                 HashMap::new(),
                 |mut acc, (name, field)| {
-                    acc.insert(name.clone(), field.clone());
+                    acc.insert(name, field);
                     acc
                 },
             ),

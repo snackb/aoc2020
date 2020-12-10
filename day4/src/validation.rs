@@ -26,10 +26,10 @@ pub fn valid_height(value: &str) -> bool {
 }
 
 pub fn valid_hair_colour(value: &str) -> bool {
-    value.starts_with("#")
-        && value.trim_start_matches("#").len() == 6
+    value.starts_with('#')
+        && value.trim_start_matches('#').len() == 6
         && value
-            .trim_start_matches("#")
+            .trim_start_matches('#')
             .chars()
             .all(|x| ('0' <= x && x <= '9') || ('a' <= x && x <= 'f'))
 }

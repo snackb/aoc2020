@@ -12,12 +12,12 @@ impl Seat {
         let col_chars = input.chars().skip(7).take(3);
         let row = chars_to_bin(row_chars.collect(), 'B');
         let col = chars_to_bin(col_chars.collect(), 'R');
-        return Self(row, col);
+        Self(row, col)
     }
 
     fn seat_number(&self) -> usize {
         let Self(row, col) = self;
-        return (row * 8) + col;
+        (row * 8) + col
     }
 }
 
@@ -32,7 +32,7 @@ fn main() {
     let input = get_input_txt();
     let seats = input.lines().map(&Seat::from_str).map(|x| x.seat_number());
     let mut seats = seats.collect::<Vec<usize>>();
-    seats.sort();
+    seats.sort_unstable();
     for i in 1..seats.len() - 2 {
         if seats[i - 1] != seats[i] - 1 || seats[i + 1] != seats[i] + 1 {
             println!("Found: {}", seats[i])
