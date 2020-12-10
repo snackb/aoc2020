@@ -1,7 +1,7 @@
 use aoc_input::*;
 
 #[derive(Debug)]
-struct Seat(usize,  usize);
+struct Seat(usize, usize);
 
 impl Seat {
     fn from_str(input: &str) -> Self {
@@ -22,13 +22,9 @@ impl Seat {
 }
 
 fn chars_to_bin(chars: Vec<char>, one: char) -> usize {
-    chars.into_iter()
-    .rev()
-    .enumerate()
-    .fold(0, |acc, (i, val)| 
-        if val == one {
-            acc + (1 << i)
-        } else {acc}
+    chars.into_iter().rev().enumerate().fold(
+        0,
+        |acc, (i, val)| if val == one { acc + (1 << i) } else { acc },
     )
 }
 
@@ -38,15 +34,13 @@ fn main() {
     let mut seats = seats.collect::<Vec<usize>>();
     seats.sort();
     for i in 1..seats.len() - 2 {
-        if seats[i-1] != seats[i] - 1 ||
-           seats[i+1] != seats[i] + 1 {
+        if seats[i - 1] != seats[i] - 1 || seats[i + 1] != seats[i] + 1 {
             println!("Found: {}", seats[i])
         } else {
             //println!("{} {} {}", seats[i-1], seats[i], seats[i+1])
         }
     }
 }
-
 
 #[cfg(test)]
 mod test {
@@ -58,6 +52,5 @@ mod test {
         let seat = Seat::from_str(input);
         println!("{:?}", seat);
         assert_eq!(820, Seat::from_str(input).seat_number());
-
     }
 }

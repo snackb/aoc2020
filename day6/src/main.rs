@@ -17,19 +17,15 @@ fn process(input: &str, counting_method: CountingMethod) -> usize {
 }
 
 fn unique_chars(input: &str) -> usize {
-    let a_z = 'a'..='z'; 
+    let a_z = 'a'..='z';
     a_z.filter(|x| input.contains(*x)).count()
 }
 
 fn all_lines_contain(input: &str) -> usize {
-    let all_lines_contain = |group: &str, ch: char| {
-        group.lines().all(|x| x.contains(ch))
-    };
-    let a_z = 'a'..='z'; 
+    let all_lines_contain = |group: &str, ch: char| group.lines().all(|x| x.contains(ch));
+    let a_z = 'a'..='z';
     a_z.filter(|x| all_lines_contain(input, *x)).count()
 }
-
-
 
 #[cfg(test)]
 mod test {
@@ -37,8 +33,7 @@ mod test {
 
     #[test]
     fn example_part1() {
-        let input = 
-"abc
+        let input = "abc
 
 a
 b
@@ -58,6 +53,5 @@ abcz
 
 b";
         assert_eq!(17, process(input, &unique_chars));
-
     }
 }
