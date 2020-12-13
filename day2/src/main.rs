@@ -1,5 +1,5 @@
 use aoc_input::{get_argument_parsed, get_input_txt};
-use std::io;
+
 
 type Condition = &'static dyn Fn(&str) -> bool;
 
@@ -16,7 +16,7 @@ fn main() {
 }
 
 fn get_valid_passwords_count(lines: std::str::Lines, condition: Condition) -> usize {
-    let mut valid: i64 = 0;
+    let _valid: i64 = 0;
     lines.filter(|line| condition(line)).count()
 }
 
