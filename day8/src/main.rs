@@ -38,11 +38,12 @@ fn run_instructions(instructions: &mut [(Op, i32, bool)]) -> Option<i32> {
             (Op::Nop, _, _) => nop(&mut index),
         };
         instructions[oldindex].2 = true;
-    };
+    }
 }
 
 fn acc_op(acc: &mut i32, value: i32, index: &mut usize) {
-    *acc += value; *index += 1;
+    *acc += value;
+    *index += 1;
 }
 
 fn jmp(index: &mut usize, value: i32) {
@@ -77,19 +78,16 @@ impl FromStr for Op {
     }
 }
 
-
 fn parse_input(input: &str) -> Vec<(Op, i32, bool)> {
     let parse_tokens = |mut x: SplitWhitespace| {
         let op = x.next().unwrap().parse().unwrap();
         let value = x.next().unwrap().parse().unwrap();
         let visited = false;
-        (
-            op,
-            value,
-            visited,
-        )
+        (op, value, visited)
     };
-    input.lines()
+    input
+        .lines()
         .map(|line| line.split_whitespace())
-        .map(&parse_tokens).collect()
+        .map(&parse_tokens)
+        .collect()
 }

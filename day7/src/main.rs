@@ -1,5 +1,5 @@
 use aoc_input::*;
-use std::collections::{HashSet,HashMap};
+use std::collections::{HashMap, HashSet};
 
 fn main() {
     let input = get_input_txt();
@@ -32,17 +32,23 @@ fn get_num_of_bags_can_hold(rules: &[Rule], target: &str) -> usize {
 }
 
 fn get_num_bags_held(rules: &[Rule], target: &str) -> usize {
-    let rules_map: HashMap<_, _> = rules.iter().map(|x|(x.bag_type.clone(), x.clone())).collect();
+    let rules_map: HashMap<_, _> = rules
+        .iter()
+        .map(|x| (x.bag_type.clone(), x.clone()))
+        .collect();
 
     fn get_rules(rules: &HashMap<String, Rule>, rule: Rule) -> Vec<Rule> {
-        rule.can_hold.into_iter().flat_map(|x| {
-            let (num, name) = x;
-            let mut new_vec = Vec::new();
-            for _ in 0..num {
-                new_vec.push(rules.get(&name).unwrap().clone());
-            }
-            new_vec
-        }).collect()
+        rule.can_hold
+            .into_iter()
+            .flat_map(|x| {
+                let (num, name) = x;
+                let mut new_vec = Vec::new();
+                for _ in 0..num {
+                    new_vec.push(rules.get(&name).unwrap().clone());
+                }
+                new_vec
+            })
+            .collect()
     }
 
     let target_rule = rules_map.get(target).unwrap().clone();
@@ -54,8 +60,7 @@ fn get_num_bags_held(rules: &[Rule], target: &str) -> usize {
             0 => return total - 1,
             x => total += x,
         }
-        let next_layer = layer.into_iter()
-            .flat_map(|x| get_rules(&rules_map, x));
+        let next_layer = layer.into_iter().flat_map(|x| get_rules(&rules_map, x));
         layer = next_layer.collect();
     }
 }
@@ -75,19 +80,22 @@ impl Rule {
             .trim()
             .to_string();
         let bags = split_line[1];
-        if !bags.contains("no other bags") { 
-            let bags = bags.split(',')
-            .map(|x| {
-                let tokens = x.split_whitespace().collect::<Vec<_>>();
-                (
-                    tokens[0].parse::<usize>().unwrap(),
-                    tokens[1].to_string() + " " + tokens[2],
-                )                 
-            }).collect::<Vec<_>>();
+        if !bags.contains("no other bags") {
+            let bags = bags
+                .split(',')
+                .map(|x| {
+                    let tokens = x.split_whitespace().collect::<Vec<_>>();
+                    (
+                        tokens[0].parse::<usize>().unwrap(),
+                        tokens[1].to_string() + " " + tokens[2],
+                    )
+                })
+                .collect::<Vec<_>>();
             Rule {
                 bag_type,
                 can_hold: bags,
-        }} else {
+            }
+        } else {
             Rule {
                 bag_type,
                 can_hold: Vec::new(),

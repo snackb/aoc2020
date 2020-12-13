@@ -1,6 +1,5 @@
 use aoc_input::{get_argument_parsed, get_input_txt};
 
-
 type Condition = &'static dyn Fn(&str) -> bool;
 
 fn main() {
