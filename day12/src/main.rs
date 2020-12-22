@@ -1,7 +1,7 @@
 use aoc_input::*;
 
 enum Direction {
-    Left, 
+    Left,
     Right,
 }
 
@@ -15,8 +15,8 @@ struct Ship {
 impl Ship {
     fn new() -> Self {
         Self {
-            x: 0, 
-            y: 0, 
+            x: 0,
+            y: 0,
             heading: 90,
         }
     }
@@ -31,9 +31,9 @@ impl Ship {
     fn forward(&mut self, distance: i64) {
         match self.heading {
             0 => self.y += distance,
-            90 => self.x += distance, 
-            180 => self.y -= distance, 
-            270 => self.x -= distance, 
+            90 => self.x += distance,
+            180 => self.y -= distance,
+            270 => self.x -= distance,
             _ => panic!("Wrong borough."),
         }
     }
@@ -43,8 +43,8 @@ impl Ship {
         match instr.chars().next().unwrap() {
             'N' => self.y += num,
             'S' => self.y -= num,
-            'E' => self.x += num, 
-            'W' => self.x -= num, 
+            'E' => self.x += num,
+            'W' => self.x -= num,
             'L' => self.change_heading(num, Direction::Left),
             'R' => self.change_heading(num, Direction::Right),
             'F' => self.forward(num),
@@ -52,7 +52,7 @@ impl Ship {
         }
     }
 
-    fn get_distance(& self) -> i64 {
+    fn get_distance(&self) -> i64 {
         self.x.abs() + self.y.abs()
     }
 }
@@ -61,18 +61,17 @@ impl Ship {
 struct Waypoint {
     x: i64,
     y: i64,
-    wx: i64, 
+    wx: i64,
     wy: i64,
-
 }
 
 impl Waypoint {
     fn new() -> Self {
         Self {
-            x: 0, 
-            y: 0, 
-            wx: 10, 
-            wy: 1
+            x: 0,
+            y: 0,
+            wx: 10,
+            wy: 1,
         }
     }
 
@@ -80,9 +79,18 @@ impl Waypoint {
         let (mut nwx, mut nwy) = (self.wx, self.wy);
         match (change, direction) {
             (0, _) | (360, _) => (),
-            (90, Direction::Left) | (270, Direction::Right) => {nwx = -self.wy; nwy = self.wx},
-            (180, _) => {nwx = -self.wx; nwy = -self.wy},
-            (270, Direction::Left) | (90, Direction::Right) => {nwx = self.wy; nwy = -self.wx},
+            (90, Direction::Left) | (270, Direction::Right) => {
+                nwx = -self.wy;
+                nwy = self.wx
+            }
+            (180, _) => {
+                nwx = -self.wx;
+                nwy = -self.wy
+            }
+            (270, Direction::Left) | (90, Direction::Right) => {
+                nwx = self.wy;
+                nwy = -self.wx
+            }
             _ => panic!("This is not the Bronx."),
         };
         self.wx = nwx;
@@ -99,8 +107,8 @@ impl Waypoint {
         match instr.chars().next().unwrap() {
             'N' => self.wy += num,
             'S' => self.wy -= num,
-            'E' => self.wx += num, 
-            'W' => self.wx -= num, 
+            'E' => self.wx += num,
+            'W' => self.wx -= num,
             'L' => self.change_heading(num, Direction::Left),
             'R' => self.change_heading(num, Direction::Right),
             'F' => self.forward(num),
@@ -108,7 +116,7 @@ impl Waypoint {
         }
     }
 
-    fn get_distance(& self) -> i64 {
+    fn get_distance(&self) -> i64 {
         self.x.abs() + self.y.abs()
     }
 }
@@ -134,7 +142,11 @@ mod test {
 
     #[test]
     fn test_heading() {
-        let mut ship = Ship{x: 0, y: 0, heading: 0};
+        let mut ship = Ship {
+            x: 0,
+            y: 0,
+            heading: 0,
+        };
         ship.change_heading(90, Direction::Right);
         assert_eq!(90, ship.heading);
         ship.change_heading(360, Direction::Right);
