@@ -1,8 +1,8 @@
 [workspace]
 
 members = [
-    "day1",
     "aoc_input",
+    "day1",
     "day2",
     "day3",
     "day4",
@@ -16,4 +16,6 @@ members = [
     "day12",
     "day13",
     "day14",
+    "day15",
+    "day16",
 ]
