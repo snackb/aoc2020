@@ -87,11 +87,6 @@ impl Document {
                 }
             }
         }
-        /* let mut counts = candidates
-            .iter()
-            .map(|x| (x.0, x.1.iter().filter(|x| **x).count()))
-            .collect::<Vec<_>>();
-        counts.sort_by_key(|x| x.1); */
         let mut result = HashMap::new();
         while let Some(candidate) = candidates
             .iter()
